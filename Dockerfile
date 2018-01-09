@@ -27,7 +27,7 @@ RUN mkdir -p /home/minecraft/data \
   && chgrp -R 0 /home/minecraft \
   && chmod -R g=u /home/minecraft
 
-EXPOSE 25565 25575
+EXPOSE 31565 31575
 
 ADD https://github.com/itzg/restify/releases/download/1.0.4/restify_linux_amd64 /usr/local/bin/restify
 ADD https://github.com/itzg/rcon-cli/releases/download/1.3/rcon-cli_linux_amd64 /usr/local/bin/rcon-cli
