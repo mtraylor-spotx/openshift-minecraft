@@ -6,17 +6,17 @@ case "X$WORLD" in
   X[Hh][Tt][Tt][Pp]*)
     echo "Downloading world via HTTP"
     echo "$WORLD"
-    wget -q -O - "$WORLD" > /data/world.zip
+    wget -q -O - "$WORLD" > /home/minecraft/data/world.zip
     echo "Unzipping word"
-    unzip -q /data/world.zip
-    rm -f /data/world.zip
+    unzip -q /home/minecraft/data/world.zip
+    rm -f /home/minecraft/data/world.zip
     if [ ! -d /data/world ]; then
       echo World directory not found
-      for i in /data/*/level.dat; do
+      for i in /home/minecraft/data/*/level.dat; do
         if [ -f "$i" ]; then
           d=`dirname "$i"`
           echo Renaming world directory from $d
-          mv -f "$d" /data/world
+          mv -f "$d" /home/minecraft/data/world
         fi
       done
     fi

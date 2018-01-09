@@ -6,7 +6,7 @@ function setServerProp {
   local var=$2
   if [ -n "$var" ]; then
     echo "Setting $prop to $var"
-    sed -i "/$prop\s*=/ c $prop=$var" /data/server.properties
+    sed -i "/$prop\s*=/ c $prop=$var" /home/minecraft/data/server.properties
   fi
 }
 
@@ -17,8 +17,8 @@ if [ ! -e server.properties ]; then
 
   if [ -n "$WHITELIST" ]; then
     echo "Creating whitelist"
-    sed -i "/whitelist\s*=/ c whitelist=true" /data/server.properties
-    sed -i "/white-list\s*=/ c white-list=true" /data/server.properties
+    sed -i "/whitelist\s*=/ c whitelist=true" /home/minecraft/data/server.properties
+    sed -i "/white-list\s*=/ c white-list=true" /home/minecraft/data/server.properties
   fi
 
   setServerProp "motd" "$MOTD"
@@ -54,7 +54,7 @@ if [ ! -e server.properties ]; then
     # check for valid values and only then set
     case $LEVEL_TYPE in
       DEFAULT|FLAT|LARGEBIOMES|AMPLIFIED|CUSTOMIZED|BIOMESOP|RTG)
-        sed -i "/level-type\s*=/ c level-type=$LEVEL_TYPE" /data/server.properties
+        sed -i "/level-type\s*=/ c level-type=$LEVEL_TYPE" /home/minecraft/data/server.properties
         ;;
       *)
         echo "Invalid LEVEL_TYPE: $LEVEL_TYPE"
@@ -83,7 +83,7 @@ if [ ! -e server.properties ]; then
         ;;
     esac
     echo "Setting difficulty to $DIFFICULTY"
-    sed -i "/difficulty\s*=/ c difficulty=$DIFFICULTY" /data/server.properties
+    sed -i "/difficulty\s*=/ c difficulty=$DIFFICULTY" /home/minecraft/data/server.properties
   fi
 
   if [ -n "$MODE" ]; then

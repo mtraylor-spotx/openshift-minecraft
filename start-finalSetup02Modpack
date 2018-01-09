@@ -13,7 +13,7 @@ case "X$MODPACK" in
 
     if [ "$TYPE" = "SPIGOT" ]; then
       if [ "$REMOVE_OLD_MODS" = "TRUE" ]; then
-        rm -rf /data/plugins/*
+        rm -rf /home/minecraft/data/plugins/*
       fi
       mkdir -p /data/plugins
       if ! unzip -o -d /data/plugins /tmp/modpack.zip; then
@@ -21,9 +21,9 @@ case "X$MODPACK" in
       fi
     else
       if [ "$REMOVE_OLD_MODS" = "TRUE" ]; then
-        rm -rf /data/mods/*
+        rm -rf /home/minecraft/data/mods/*
       fi
-      mkdir -p /data/mods
+      mkdir -p /home/minecraft/data/mods
       if ! unzip -o -d /data/mods /tmp/modpack.zip; then
         echo "ERROR: failed to unzip the modpack from $MODPACK"
       fi

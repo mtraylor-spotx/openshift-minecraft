@@ -1,6 +1,6 @@
 FROM openjdk:8u131-jre-alpine
 
-LABEL maintainer "itzg"
+LABEL maintainer "mtraylor-spotx"
 
 RUN apk add -U \
           openssl \
@@ -19,13 +19,12 @@ RUN pip install mcstatus
 
 HEALTHCHECK CMD mcstatus localhost ping
 
-RUN addgroup -g 1000 minecraft \
-  && adduser -Ss /bin/false -u 1000 -G minecraft -h /home/minecraft minecraft \
-  && mkdir /data \
-  && mkdir /config \
-  && mkdir /mods \
-  && mkdir /plugins \
-  && chown minecraft:minecraft /data /config /mods /plugins /home/minecraft
+RUN adduser -s /bin/bash -h /home/minecraft minecraft \
+  && mkdir -p /home/minecraft/data \
+  && mkdir -p /home/minecraft/config \
+  && mkdir -p /home/minecraft/mods \
+  && mkdir -p /home/minecraft/plugins \
+  && chown minecraft:minecraft /home/minecraft/data /home/minecraft/config /home/minecraft/mods /home/minecraft/plugins /home/minecraft
 
 EXPOSE 25565 25575
 
@@ -35,9 +34,9 @@ COPY start* /
 COPY mcadmin.jq /usr/share
 RUN chmod +x /usr/local/bin/*
 
-VOLUME ["/data","/mods","/config","/plugins","/home/minecraft"]
+VOLUME ["//home/minecraftdata","/home/minecraft/mods","/home/minecraft/config","/home/minecraft/plugins","/home/minecraft"]
 COPY server.properties /tmp/server.properties
-WORKDIR /data
+WORKDIR /home/minecraft/data
 
 ENTRYPOINT [ "/start" ]
 

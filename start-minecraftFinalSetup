@@ -16,10 +16,10 @@ if [ -n "$ICON" -a ! -e server-icon.png ]; then
   wget -q -O /tmp/icon.img $ICON
   specs=$(identify /tmp/icon.img | awk '{print $2,$3}')
   if [ "$specs" = "PNG 64x64" ]; then
-    mv /tmp/icon.img /data/server-icon.png
+    mv /tmp/icon.img /home/minecraft/data/server-icon.png
   else
     echo "Converting image to 64x64 PNG..."
-    convert /tmp/icon.img -resize 64x64! /data/server-icon.png
+    convert /tmp/icon.img -resize 64x64! /home/minecraft/data/server-icon.png
   fi
 fi
 
@@ -37,27 +37,27 @@ else
 fi
 
 # If any modules have been provided, copy them over
-mkdir -p /data/mods
-for m in /mods/*.{jar,zip}
+mkdir -p /home/minecraft/data/mods
+for m in /home/minecraft/mods/*.{jar,zip}
 do
   if [ -f "$m" -a ! -f "/data/mods/$m" ]; then
     echo Copying mod `basename "$m"`
-    cp "$m" /data/mods
+    cp "$m" /home/minecraft/data/mods
   fi
 done
-[ -d /data/config ] || mkdir /data/config
-for c in /config/*
+[ -d /home/minecraft/data/config ] || mkdir /home/minecraft/data/config
+for c in /home/minecraft/config/*
 do
   if [ -f "$c" ]; then
     echo Copying configuration `basename "$c"`
-    cp -rf "$c" /data/config
+    cp -rf "$c" /home/minecraft/data/config
   fi
 done
 
 if [ "$TYPE" = "SPIGOT" ]; then
-  if [ -d /plugins ]; then
+  if [ -d /home/minecraft/plugins ]; then
     echo Copying any Bukkit plugins over
-    cp -r /plugins /data
+    cp -r /home/minecraft/plugins /home/minecraft/data
   fi
 fi
 
@@ -78,7 +78,7 @@ JVM_OPTS="-Xms${INIT_MEMORY:-${MEMORY}} -Xmx${MAX_MEMORY:-${MEMORY}} ${JVM_OPTS}
 
 if [[ ${TYPE} == "FEED-THE-BEAST" ]]; then
     cp -f $SERVER_PROPERTIES ${FTB_DIR}/server.properties
-    cp -f /data/{eula,ops,white-list}.txt ${FTB_DIR}/
+    cp -f /home/minecraft/data/{eula,ops,white-list}.txt ${FTB_DIR}/
     cd ${FTB_DIR}
     echo "Running FTB server modpack start ..."
     exec ${FTB_SERVER_START}
@@ -86,7 +86,7 @@ else
     # If we have a bootstrap.txt file... feed that in to the server stdin
     if [ -f /data/bootstrap.txt ];
     then
-        exec java $JVM_XX_OPTS $JVM_OPTS -jar $SERVER "$@" $EXTRA_ARGS < /data/bootstrap.txt
+        exec java $JVM_XX_OPTS $JVM_OPTS -jar $SERVER "$@" $EXTRA_ARGS < /home/minecraft/data/bootstrap.txt
     else
         exec java $JVM_XX_OPTS $JVM_OPTS -jar $SERVER "$@" $EXTRA_ARGS
     fi
