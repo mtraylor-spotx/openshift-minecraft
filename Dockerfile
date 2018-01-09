@@ -19,12 +19,13 @@ RUN pip install mcstatus
 
 HEALTHCHECK CMD mcstatus localhost ping
 
-RUN adduser -s /bin/bash -h /home/minecraft minecraft \
-  && mkdir -p /home/minecraft/data \
+RUN adduser -Ss /bin/bash -h /home/minecraft -g minecraft minecraft
+RUN mkdir -p /home/minecraft/data \
   && mkdir -p /home/minecraft/config \
   && mkdir -p /home/minecraft/mods \
   && mkdir -p /home/minecraft/plugins \
-  && chown minecraft:minecraft /home/minecraft/data /home/minecraft/config /home/minecraft/mods /home/minecraft/plugins /home/minecraft
+  && chgrp -R 0 /home/minecraft \
+  && chmod -R g=u /home/minecraft
 
 EXPOSE 25565 25575
 
@@ -32,17 +33,19 @@ ADD https://github.com/itzg/restify/releases/download/1.0.4/restify_linux_amd64 
 ADD https://github.com/itzg/rcon-cli/releases/download/1.3/rcon-cli_linux_amd64 /usr/local/bin/rcon-cli
 COPY start* /
 COPY mcadmin.jq /usr/share
-RUN chmod +x /usr/local/bin/*
+RUN chmod -R +x /usr/local/bin/*
 
-VOLUME ["//home/minecraftdata","/home/minecraft/mods","/home/minecraft/config","/home/minecraft/plugins","/home/minecraft"]
+VOLUME ["/home/minecraftdata","/home/minecraft/mods","/home/minecraft/config","/home/minecraft/plugins","/home/minecraft"]
 COPY server.properties /tmp/server.properties
 WORKDIR /home/minecraft/data
-
+RUN chmod g=u /etc/passwd
 ENTRYPOINT [ "/start" ]
 
-ENV UID=1000 GID=1000 \
+USER 1000
+
+ENV UID=1000 USER_NAME=minecraft HOME=/home/minecraft \
     MOTD="A Minecraft Server Powered by Docker" \
-    JVM_XX_OPTS="-XX:+UseG1GC" MEMORY="1G" \
+    JVM_XX_OPTS="-XX:+UseG1GC" MEMORY="2G" \
     TYPE=VANILLA VERSION=LATEST FORGEVERSION=RECOMMENDED SPONGEBRANCH=STABLE SPONGEVERSION= LEVEL=world \
     PVP=true DIFFICULTY=easy ENABLE_RCON=true RCON_PORT=25575 RCON_PASSWORD=minecraft \
     LEVEL_TYPE=DEFAULT GENERATOR_SETTINGS= WORLD= MODPACK= ONLINE_MODE=TRUE CONSOLE=true
