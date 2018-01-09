@@ -43,7 +43,7 @@ ENTRYPOINT [ "/start" ]
 
 USER 1000
 
-ENV UID=1000 USER_NAME=minecraft HOME=/home/minecraft \
+ENV UID=1000 USER_NAME=minecraft HOME=/home/minecraft EULA=TRUE \
     MOTD="A Minecraft Server Powered by Docker" \
     JVM_XX_OPTS="-XX:+UseG1GC" MEMORY="2G" \
     TYPE=VANILLA VERSION=LATEST FORGEVERSION=RECOMMENDED SPONGEBRANCH=STABLE SPONGEVERSION= LEVEL=world \
