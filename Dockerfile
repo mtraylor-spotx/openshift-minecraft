@@ -20,10 +20,7 @@ RUN pip install mcstatus
 HEALTHCHECK CMD mcstatus localhost ping
 
 RUN adduser -Ss /bin/bash -h /home/minecraft -g minecraft minecraft
-RUN chgrp -R 0 /opt/minecraftvol \
-  && chmod -R g=u /opt/minecraftvol \
-  && ln -s /home/minecraft/data /home/minecraft/data \
-  && mkdir -p /home/minecraft/config \
+RUN  mkdir -p /home/minecraft/config \
   && mkdir -p /home/minecraft/mods \
   && mkdir -p /home/minecraft/plugins \
   && chgrp -R 0 /home/minecraft \
