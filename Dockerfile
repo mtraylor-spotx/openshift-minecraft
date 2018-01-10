@@ -35,7 +35,7 @@ COPY start* /
 COPY mcadmin.jq /usr/share
 RUN chmod -R +x /usr/local/bin/*
 
-VOLUME ["/home/minecraftdata","/home/minecraft/mods","/home/minecraft/config","/home/minecraft/plugins","/home/minecraft"]
+VOLUME ["/home/minecraft/data","/home/minecraft/mods","/home/minecraft/config","/home/minecraft/plugins","/home/minecraft"]
 COPY server.properties /tmp/server.properties
 WORKDIR /home/minecraft/data
 RUN chmod g=u /etc/passwd
