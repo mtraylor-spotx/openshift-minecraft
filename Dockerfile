@@ -20,7 +20,9 @@ RUN pip install mcstatus
 HEALTHCHECK CMD mcstatus localhost ping
 
 RUN adduser -Ss /bin/bash -h /home/minecraft -g minecraft minecraft
-RUN mkdir -p /home/minecraft/data \
+RUN chgrp -R 0 /opt/minecraftvol \
+  && chmod -R g=u /opt/minecraftvol \
+  && ln -s /home/minecraft/data /home/minecraft/data \
   && mkdir -p /home/minecraft/config \
   && mkdir -p /home/minecraft/mods \
   && mkdir -p /home/minecraft/plugins \
@@ -44,7 +46,7 @@ ENTRYPOINT [ "/start" ]
 USER 1000
 
 ENV UID=1000 USER_NAME=minecraft HOME=/home/minecraft EULA=TRUE \
-    MOTD="A Minecraft Server Powered by Docker" \
+    MOTD="A Minecraft Server Powered by Openshift" \
     JVM_XX_OPTS="-XX:+UseG1GC" MEMORY="3G" \
     TYPE=VANILLA VERSION=LATEST FORGEVERSION=RECOMMENDED SPONGEBRANCH=STABLE SPONGEVERSION= LEVEL=world \
     PVP=true DIFFICULTY=easy ENABLE_RCON=true RCON_PORT=31575 RCON_PASSWORD=minecraft \
