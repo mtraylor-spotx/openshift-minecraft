@@ -19,8 +19,8 @@ RUN pip install mcstatus
 
 HEALTHCHECK CMD mcstatus localhost ping
 
-RUN adduser -Ss /bin/bash -h /home/minecraft -g minecraft minecraft
-RUN  mkdir -p /home/minecraft/data \
+RUN adduser -Ss /bin/bash -h /home/minecraft -g minecraft minecraft \
+  && mkdir -p /home/minecraft/data \
   && mkdir -p /home/minecraft/config \
   && mkdir -p /home/minecraft/mods \
   && mkdir -p /home/minecraft/plugins \
@@ -35,7 +35,6 @@ COPY start* /
 COPY mcadmin.jq /usr/share
 RUN chmod -R +x /usr/local/bin/*
 
-VOLUME ["/home/minecraft/data","/home/minecraft/mods","/home/minecraft/config","/home/minecraft/plugins","/home/minecraft"]
 COPY server.properties /tmp/server.properties
 WORKDIR /home/minecraft/data
 RUN chmod g=u /etc/passwd
