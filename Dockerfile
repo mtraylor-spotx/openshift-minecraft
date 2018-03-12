@@ -3,29 +3,26 @@ FROM openjdk:8u131-jre-alpine
 LABEL maintainer "mtraylor-spotx"
 
 RUN apk add -U \
-          openssl \
-          imagemagick \
-          lsof \
-          su-exec \
-          bash \
-          curl iputils wget \
-          git \
-          jq \
-          mysql-client \
-          python python-dev py2-pip && \
-        rm -rf /var/cache/apk/*
-
-RUN pip install mcstatus
+      openssl \
+      imagemagick \
+      lsof \
+      su-exec \
+      bash \
+      curl iputils wget \
+      git \
+      jq \
+      mysql-client \
+      python python-dev py2-pip && \
+    rm -rf /var/cache/apk/* && \
+    pip install mcstatus && \
+    mkdir -p /home/minecraft/data && \
+    mkdir -p /home/minecraft/config && \
+    mkdir -p /home/minecraft/mods && \
+    mkdir -p /home/minecraft/plugins && \
+    chgrp -R 0 /home/minecraft && \
+    chmod -R g=u /home/minecraft
 
 HEALTHCHECK CMD mcstatus localhost ping
-
-RUN adduser -Ss /bin/bash -h /home/minecraft -g minecraft minecraft \
-  && mkdir -p /home/minecraft/data \
-  && mkdir -p /home/minecraft/config \
-  && mkdir -p /home/minecraft/mods \
-  && mkdir -p /home/minecraft/plugins \
-  && chgrp -R 0 /home/minecraft \
-  && chmod -R g=u /home/minecraft
 
 EXPOSE 31565 31575
 
