@@ -88,6 +88,6 @@ else
     then
         exec java $JVM_XX_OPTS $JVM_OPTS -jar $SERVER "$@" $EXTRA_ARGS < /home/minecraft/data/bootstrap.txt
     else
-        exec java $JVM_XX_OPTS $JVM_OPTS -jar $SERVER "$@" $EXTRA_ARGS
+        exec java $JVM_XX_OPTS $JVM_OPTS -jar server.jar "$@" $EXTRA_ARGS
     fi
 fi

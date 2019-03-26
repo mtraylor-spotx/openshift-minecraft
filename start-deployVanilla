@@ -6,7 +6,6 @@ if [ ! -e $SERVER ]; then
   echo "Downloading $SERVER ..."
   #wget -q https://s3.amazonaws.com/Minecraft.Download/versions/$VANILLA_VERSION/$SERVER
   curl -L -O https://launcher.mojang.com/v1/objects/3737db93722a9e39eeada7c27e7aca28b144ffa7/server.jar
-  mv server.jar $SERVER
 fi
 
 # Continue to Final Setup
