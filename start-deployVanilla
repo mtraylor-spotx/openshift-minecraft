@@ -5,7 +5,7 @@ export SERVER="minecraft_server.$VANILLA_VERSION.jar"
 if [ ! -e $SERVER ]; then
   echo "Downloading $SERVER ..."
   #wget -q https://s3.amazonaws.com/Minecraft.Download/versions/$VANILLA_VERSION/$SERVER
-  wget -q https://launcher.mojang.com/v1/objects/3737db93722a9e39eeada7c27e7aca28b144ffa7/server.jar $SERVER
+  wget -q https://launcher.mojang.com/v1/objects/3737db93722a9e39eeada7c27e7aca28b144ffa7/server.jar -o $SERVER
 fi
 
 # Continue to Final Setup
